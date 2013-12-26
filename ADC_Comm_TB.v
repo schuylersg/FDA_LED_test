@@ -21,12 +21,15 @@
 module ADC_Comm_TB(
     );
 
-reg clk;
+reg clk, init, des_en, des_dis;
 
 wire sclk, sdata, select;
 
 ADCExtendedControl DUT (
     .clk(clk), 
+	 .init(init),
+	 .des_enable(des_en),
+	 .des_disable(des_dis),
     .sclk(sclk), 
     .sdata(sdata), 
     .select(select)
@@ -35,6 +38,13 @@ ADCExtendedControl DUT (
 	initial
 	begin
 		clk = 0;
+		init = 0;
+		des_en = 0;
+		des_dis = 0;
+		#100 des_en = 1;
+		#10 des_en = 0;
+		#6000 des_dis = 1;
+		#10 des_dis = 0;
 	end
 
 	always
